@@ -13,14 +13,17 @@ class Splash extends StatefulWidget {
 Future<bool> checkPermissions() async {
   bool isContactPermissionGranted = await Permission.contacts.isGranted;
   bool isLocationPermissionGranted = await Permission.location.isGranted;
+  bool isStoragePermissionGranted = await Permission.storage.isGranted;
 
-  if (!isContactPermissionGranted) {
-    await Permission.contacts.request();
-  }
+  if (!isContactPermissionGranted) await Permission.contacts.request();
 
   if (!isLocationPermissionGranted) await Permission.location.request();
 
-  return isContactPermissionGranted && isLocationPermissionGranted;
+  if (!isStoragePermissionGranted) await Permission.storage.request();
+
+  return isContactPermissionGranted &&
+      isLocationPermissionGranted &&
+      isStoragePermissionGranted;
 }
 
 class _SplashState extends State<Splash> {

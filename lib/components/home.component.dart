@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter_boom_menu/flutter_boom_menu.dart';
 
 class HomeGridTile extends StatelessWidget {
   final String image;
@@ -9,39 +11,38 @@ class HomeGridTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 100,
+      width: double.infinity,
       height: 60,
       child: Card(
         color: Colors.blue[200],
         child: new Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            new Padding(
-              padding: EdgeInsets.all(15.0),
+            new Container(
+              padding: EdgeInsets.all(10.0),
               child: new Card(
+                  margin: EdgeInsets.symmetric(vertical: 2.0),
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
+                      borderRadius: BorderRadius.circular(16.0),
                       side: BorderSide(color: Colors.white70, width: 1)),
                   child: SizedBox(
-                    width: 60.0,
-                    height: 60.0,
+                    width: 50.0,
+                    height: 50.0,
                     child: new Center(
                       child: Image.asset(
                         this.image,
                         fit: BoxFit.fitHeight,
-                        width: 40,
-                        height: 40,
+                        width: 30,
+                        height: 30,
                       ),
                     ),
                   )),
             ),
-            new Center(
-              child: Text(this.title,
-                  style: TextStyle(
-                      fontSize: 16.0,
-                      fontStyle: FontStyle.normal,
-                      color: Colors.black)),
-            )
+            Text(this.title,
+                style: TextStyle(
+                    fontSize: 11.0,
+                    fontStyle: FontStyle.normal,
+                    color: Colors.black))
           ],
         ),
       ),
@@ -57,8 +58,74 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  ScrollController scrollController;
+  bool scrollVisible = true;
+
+  @override
+  void initState() {
+    super.initState();
+
+    scrollController = ScrollController()
+      ..addListener(() {
+        setDialVisible(scrollController.position.userScrollDirection ==
+            ScrollDirection.forward);
+      });
+  }
+
+  void setDialVisible(bool value) {
+    setState(() {
+      scrollVisible = value;
+    });
+  }
+
+  BoomMenu buildBoomMenu() {
+    return BoomMenu(
+        animatedIcon: AnimatedIcons.menu_close,
+        animatedIconTheme: IconThemeData(size: 22.0),
+        marginBottom: -8.0,
+        child: Icon(Icons.add),
+        fabAlignment: Alignment.bottomRight,
+        onOpen: () => print('OPENING DIAL'),
+        onClose: () => print('DIAL CLOSED'),
+        scrollVisible: scrollVisible,
+        overlayColor: Colors.black,
+        overlayOpacity: 0.7,
+        children: [
+          MenuItem(
+//          child: Icon(Icons.accessibility, color: Colors.black, size: 40,),
+            child: IconButton(
+              icon: Icon(Icons.person_add),
+              onPressed: null,
+              iconSize: 40,
+            ),
+            title: "Taagya",
+            titleColor: Colors.grey[850],
+            subtitle: "Apply as a taagya",
+            subTitleColor: Colors.grey[850],
+            backgroundColor: Colors.grey[50],
+            onTap: () => print('Taagya'),
+          ),
+          MenuItem(
+            child: IconButton(
+              icon: Icon(Icons.video_call),
+              onPressed: null,
+              iconSize: 40,
+            ),
+            title: "Virtual meet",
+            subtitle: "Schedule a virtual meet with a doctor",
+            titleColor: Colors.black,
+            subTitleColor: Colors.black,
+            backgroundColor: Colors.white,
+            onTap: () => print('Virtual meet'),
+          ),
+        ]);
+  }
+
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
+    final double itemWidth = size.width / 0.75;
     return Container(
       child: new Scaffold(
         body: Container(
@@ -94,11 +161,12 @@ class _HomeState extends State<Home> {
                   )
                 ],
               ),
-              Expanded(
-                child: new Align(
-                  alignment: Alignment.center,
+              new Expanded(
+                child: MediaQuery.removePadding(
+                  context: context,
+                  removeTop: true,
                   child: new Padding(
-                    padding: EdgeInsets.only(top: 100.0, bottom: 30.0),
+                    padding: EdgeInsets.only(top: 30.0, bottom: 30.0),
                     child: new Column(
                       children: <Widget>[
                         new Center(
@@ -108,7 +176,7 @@ class _HomeState extends State<Home> {
                           child: SizedBox(
                             child: GridView.count(
                               crossAxisCount: 2,
-                              childAspectRatio: 1,
+                              childAspectRatio: (itemWidth / itemHeight),
                               padding: EdgeInsets.all(4.0),
                               mainAxisSpacing: 4.0,
                               crossAxisSpacing: 4.0,
@@ -116,49 +184,49 @@ class _HomeState extends State<Home> {
                                 new GridTile(
                                   child: new HomeGridTile(
                                     image: "assets/icons/ribbon.webp",
-                                    title: "category",
+                                    title: "Gastroenterologist",
                                   ),
                                 ),
                                 new GridTile(
                                   child: new HomeGridTile(
                                     image: "assets/icons/tooth.webp",
-                                    title: "category",
+                                    title: "Dentist",
                                   ),
                                 ),
                                 new GridTile(
                                   child: new HomeGridTile(
                                     image: "assets/icons/mask.webp",
-                                    title: "category",
+                                    title: "General surgeon",
                                   ),
                                 ),
                                 new GridTile(
                                   child: new HomeGridTile(
                                     image: "assets/icons/mentalhealth.webp",
-                                    title: "category",
+                                    title: "Phychiatrist",
                                   ),
                                 ),
                                 new GridTile(
                                   child: new HomeGridTile(
                                     image: "assets/icons/mother.webp",
-                                    title: "category",
+                                    title: "Gynecologist",
                                   ),
                                 ),
                                 new GridTile(
                                   child: new HomeGridTile(
                                     image: "assets/icons/doctor.webp",
-                                    title: "category",
+                                    title: "General physician",
                                   ),
                                 ),
                                 new GridTile(
                                   child: new HomeGridTile(
                                     image: "assets/icons/bone.webp",
-                                    title: "category",
+                                    title: "Orthopedist",
                                   ),
                                 ),
                                 new GridTile(
                                   child: new HomeGridTile(
                                     image: "assets/icons/eyecare.webp",
-                                    title: "category",
+                                    title: "Ent specialist",
                                   ),
                                 ),
                               ],
@@ -175,6 +243,7 @@ class _HomeState extends State<Home> {
                 height: 60.0,
                 child: Container(
                   height: 60.0,
+                  margin: EdgeInsets.only(right: 60.0),
                   alignment: Alignment.bottomCenter,
                   child: SizedBox.expand(
                       child: Padding(
@@ -185,8 +254,8 @@ class _HomeState extends State<Home> {
                           side: BorderSide(color: Colors.blue)),
                       color: Colors.blue,
                       textColor: Colors.white,
-                      child:
-                          new Text("Proceed", style: TextStyle(fontSize: 20.0)),
+                      child: new Text("Looking for more ?",
+                          style: TextStyle(fontSize: 20.0)),
                       onPressed: () => {},
                     ),
                   )),
@@ -195,6 +264,7 @@ class _HomeState extends State<Home> {
             ],
           ),
         ),
+        floatingActionButton: buildBoomMenu(),
       ),
     );
   }

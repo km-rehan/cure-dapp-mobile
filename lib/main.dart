@@ -1,15 +1,17 @@
 import 'package:curedapp/pages/home.page.dart';
 import 'package:curedapp/pages/location.page.dart';
+import 'package:curedapp/pages/profile.page.dart';
 import 'package:curedapp/splashscreen/splash.dart';
 import 'package:flutter/material.dart';
 
 void main() {
   runApp(new MaterialApp(
     initialRoute: "/",
-    routes: <String, WidgetBuilder> {
+    routes: <String, WidgetBuilder>{
       '/': (BuildContext context) => Splash(),
       '/location': (BuildContext context) => Location(),
       '/home': (BuildContext context) => Homepage(),
+      '/profile': (BuildContext context) => ProfilePage()
     },
   ));
 }

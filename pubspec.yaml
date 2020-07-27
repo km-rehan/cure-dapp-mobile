@@ -32,6 +32,12 @@ dependencies:
   splashscreen: ^1.2.0
   flutter_conditional_rendering: ^1.1.1
   shared_preferences: ^0.5.8
+  flutter_boom_menu: ^1.0.2
+  validators: ^2.0.1
+  image_picker: ^0.6.3
+  flutter_form_bloc: ^0.15.0
+  flutter_native_timezone: ^1.0.4
+
 
 dev_dependencies:
   flutter_test:
