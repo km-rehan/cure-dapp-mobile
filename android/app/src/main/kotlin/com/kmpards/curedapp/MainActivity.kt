@@ -1,4 +1,4 @@
-package com.example.curedapp
+package com.kmpards.curedapp
 
 import io.flutter.embedding.android.FlutterActivity
 

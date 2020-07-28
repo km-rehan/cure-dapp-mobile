@@ -74,7 +74,7 @@ class _HomepageState extends State<Homepage> {
                             color: Colors.black)),
                   ),
                   onTap: () {
-                    Navigator.pop(context);
+                    Navigator.popAndPushNamed(context, "/appointments");
                   },
                 ),
                 ListTile(

@@ -1,7 +1,7 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class Splash extends StatefulWidget {
   Splash({Key key}) : super(key: key);
@@ -33,15 +33,23 @@ class _SplashState extends State<Splash> {
   @override
   void initState() {
     super.initState();
-    checkPermissions()
-        .then((granted) => {
-              _timer = new Timer(Duration(seconds: 3), () {
-                setState(() {
-                  _isShowingFirstWidget = false;
-                });
+    if (!kIsWeb) {
+      checkPermissions()
+          .then((granted) => {
+                _timer = new Timer(Duration(seconds: 3), () {
+                  setState(() {
+                    _isShowingFirstWidget = false;
+                  });
+                })
               })
-            })
-        .catchError((error) => {print(error)});
+          .catchError((error) => {print(error)});
+    } else {
+      _timer = new Timer(Duration(seconds: 3), () {
+        setState(() {
+          _isShowingFirstWidget = false;
+        });
+      });
+    }
   }
 
   @override

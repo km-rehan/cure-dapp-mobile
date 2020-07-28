@@ -1,6 +1,8 @@
+import 'package:curedapp/utils/toast.message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_boom_menu/flutter_boom_menu.dart';
+import 'package:utopic_toast/utopic_toast.dart';
 
 class HomeGridTile extends StatelessWidget {
   final String image;
@@ -78,6 +80,18 @@ class _HomeState extends State<Home> {
     });
   }
 
+  void handleTagyaClick() {
+    Navigator.pushNamed(context, "/tagya");
+  }
+
+  void handleVirtualMeetClick() {
+    ToastFunctions.showToast("Under development",
+        actionText: "okay",
+        textColor: Colors.blue,
+        type: ToastType.notification,
+        forDuration: 3);
+  }
+
   BoomMenu buildBoomMenu() {
     return BoomMenu(
         animatedIcon: AnimatedIcons.menu_close,
@@ -103,7 +117,9 @@ class _HomeState extends State<Home> {
             subtitle: "Apply as a taagya",
             subTitleColor: Colors.grey[850],
             backgroundColor: Colors.grey[50],
-            onTap: () => print('Taagya'),
+            onTap: () {
+              handleTagyaClick();
+            },
           ),
           MenuItem(
             child: IconButton(
@@ -116,7 +132,9 @@ class _HomeState extends State<Home> {
             titleColor: Colors.black,
             subTitleColor: Colors.black,
             backgroundColor: Colors.white,
-            onTap: () => print('Virtual meet'),
+            onTap: () {
+              handleVirtualMeetClick();
+            },
           ),
         ]);
   }
@@ -247,7 +265,8 @@ class _HomeState extends State<Home> {
                   alignment: Alignment.bottomCenter,
                   child: SizedBox.expand(
                       child: Padding(
-                    padding: EdgeInsets.all(5.0),
+                    padding: EdgeInsets.only(
+                        left: 5.0, right: 12.0, top: 5.0, bottom: 5.0),
                     child: RaisedButton(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(50.0),
